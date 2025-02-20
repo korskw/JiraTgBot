@@ -29,7 +29,7 @@ async def get_status(update: Update, context: CallbackContext) -> None:
 
 async def check_new_issues():
     global last_seen_issue
-    jql_query = f'project={JIRA_PROJECT_KEY} AND reporter="{JIRA_REPORTER}" ORDER BY created DESC'
+    jql_query = f'project={JIRA_PROJECT_KEY} AND reporter="{JIRA_REPORTER}" OR assignee="{JIRA_REPORTER}" ORDER BY created DESC'
     issues = jira.search_issues(jql_query, maxResults=5)
 
     if issues:
@@ -52,7 +52,7 @@ async def send_telegram_message(text):
 
 
 async def last_tasks(update: Update, context: CallbackContext) -> None:
-    jql_query = f'project={JIRA_PROJECT_KEY} AND reporter="{JIRA_REPORTER}" ORDER BY created DESC'
+    jql_query = f'project={JIRA_PROJECT_KEY} AND reporter="{JIRA_REPORTER}" OR assignee="{JIRA_REPORTER}" ORDER BY created DESC'
     issues = jira.search_issues(jql_query, maxResults=5)
 
     message = "📝 Последние задачи:\n"
